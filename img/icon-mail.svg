@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="115px" height="92px" viewBox="0 0 115 92" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon-mail</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="list" transform="translate(-362.000000, -2256.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="icon-mail" transform="translate(362.540541, 2256.000000)">
+                <path d="M114.378378,26.7082945 L114.378378,79.995142 C114.378378,86.2700915 109.257484,91.3569432 102.940541,91.3569432 L11.4378378,91.3569432 C5.12089443,91.3569432 0,86.2700915 0,79.995142 L0,26.7082945 L54.6156757,53.8061903 C56.2344018,54.6164491 58.1439766,54.6164491 59.7627027,53.8061903 L114.378378,26.7082945 Z" id="Path"></path>
+                <path d="M57.1891892,42.8704567 L0,14.2320622 L0,12.0555442 C0,5.7550974 5.14702703,0.600186393 11.4378378,0.600186393 L102.940541,0.600186393 C109.257484,0.600186393 114.378378,5.72892478 114.378378,12.0555442 L114.378378,14.2320622 L57.1891892,42.8704567 L57.1891892,42.8704567 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>
