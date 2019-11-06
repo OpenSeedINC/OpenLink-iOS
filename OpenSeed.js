@@ -359,9 +359,7 @@ function profile(account) {
                 .replace(/%25/g, "%")
 
                 var pfile = JSON.parse(raw)
-                if (raw !== {
-                            "profile": "Not found"
-                        }) {
+                if (raw !== '{"profile":"Not found"}') {
                     var general = pfile["data1"]
                     var info = pfile["data2"]
                     var sandi = pfile["data3"]
@@ -382,21 +380,24 @@ function profile(account) {
                     }
 
                     if (steemProfile["profile"] !== undefined) {
-                        if (steemProfile["profile"]["profile_image"] !== undefined) {
-                            aimage = steemProfile["profile"]["profile_image"]
-                        }
 
-                        if (steemProfile["profile"]["about"] !== undefined) {
-                            if (aabout == "") {
-                                aabout = steemProfile["profile"]["about"]
+                        if(decodeURI(steemProfile["profile"]) !== "Not found") {
+                            if (steemProfile["profile"]["profile_image"] !== undefined) {
+                                aimage = steemProfile["profile"]["profile_image"]
                             }
-                        }
-                        if (steemProfile["profile"]["cover_image"] !== undefined) {
-                            abanner = steemProfile["profile"]["cover_image"]
-                        } else {
-                            abanner = "qrc:/img/bg-splash-blue.png"
-                        }
+
+                            if (steemProfile["profile"]["about"] !== undefined) {
+                                if (aabout == "") {
+                                    aabout = decodeURI(steemProfile["profile"]["about"])
+                                }
+                            }
+                            if (steemProfile["profile"]["cover_image"] !== undefined) {
+                                abanner = decodeURI(steemProfile["profile"]["cover_image"])
+                            } else {
+                                abanner = "qrc:/img/bg-splash-blue.png"
+                            }
                     }
+                  }
                 }
             }
         }
@@ -462,21 +463,23 @@ function user_profile(account) {
                     }
 
                     if (steemProfile["profile"] !== undefined) {
-                        if (steemProfile["profile"]["profile_image"] !== undefined) {
-                            profile_Image = steemProfile["profile"]["profile_image"]
-                        }
-
-                        if (steemProfile["profile"]["about"] !== undefined) {
-                            if (profile_About == "") {
-                                profile_About = steemProfile["profile"]["about"]
+                        if (decodeURI(steemProfile["profile"]) !== "Not found") {
+                            if (steemProfile["profile"]["profile_image"] !== undefined) {
+                                profile_Image = steemProfile["profile"]["profile_image"]
                             }
-                        }
-                        if (steemProfile["profile"]["cover_image"] !== undefined) {
-                            profile_Banner = steemProfile["profile"]["cover_image"]
-                        } else {
-                            profile_Banner = "qrc:/img/bg-splash-blue.png"
-                        }
+
+                            if (steemProfile["profile"]["about"] !== undefined) {
+                                if (profile_About == "") {
+                                    profile_About = decodeURI(steemProfile["profile"]["about"])
+                                }
+                            }
+                            if (steemProfile["profile"]["cover_image"] !== undefined) {
+                                profile_Banner = steemProfile["profile"]["cover_image"]
+                            } else {
+                                profile_Banner = "qrc:/img/bg-splash-blue.png"
+                            }
                     }
+                   }
                 }
             }
         }
@@ -837,7 +840,7 @@ function retrieve_conversations(username) {
                                           })
 
                         if (conversations.get(i)["message"] !== themessage && con["conversation"] !== username) {
-                           notificationClient.notification = "New Message from: " + aname
+
                         }
                     }
                 }
