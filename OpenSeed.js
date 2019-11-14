@@ -617,7 +617,6 @@ function updates(userid, username, type, last) {
                 }
 
                 if (type === "chat") {
-                    //print(raw.trim())
                     var returned = JSON.parse(raw.trim())
                     var loc = false
                     if (returned["type"] === userid) {
@@ -665,8 +664,10 @@ function send_chat(username1, username2, message) {
     if (ekey == "") {
         ekey = load_key(username1, username2)
     }
+
     var secret =simp_crypt(ekey, message)
-    //var secret = " "+message+" "
+
+    //var secret = ""+message+""
     var http = new XMLHttpRequest()
     var url = "https://api.openseed.solutions/chats.py"
     var raw = ""
@@ -831,6 +832,14 @@ function retrieve_conversations(username) {
 
                         var themessage = simp_decrypt(key,con["message"])
 
+                       if (conversations.get(i) !== undefined) {
+                           if(conversations.get(i)["message"] !== themessage) {
+                               if(con["conversation"].split(",")[0] !== username) {
+                                   // notificationClient.notification = aname+": "+themessage
+                               }
+                            }
+                        }
+
                         conversations.set(i, {
                                               "speaker": con["conversation"],
                                               "message": themessage,
@@ -839,9 +848,7 @@ function retrieve_conversations(username) {
                                               "a2": memebers[1]
                                           })
 
-                        if (conversations.get(i)["message"] !== themessage && con["conversation"] !== username) {
 
-                        }
                     }
                 }
                }
@@ -875,29 +882,42 @@ function load_key(username1, username2) {
 }
 
 function simp_crypt(key,raw_data) {
+    key = key.replace(/0/g,"q")
+            .replace(/1/g,"a").replace(/2/g,"b")
+            .replace(/3/g,"c").replace(/4/g,"d")
+            .replace(/5/g,"F").replace(/6/g,"A")
+            .replace(/7/g,"Z").replace(/8/g,"Q")
+            .replace(/9/g,"T").replace(/#/g,"G")
+            .replace(/!/g,"B").replace(/,/g,"C")
+            .replace(/ /g,"!").replace(/\//g,"S")
+            .replace(/=/g,"e").replace(/:/g,"c")
+            .replace(/\n/g,"n")
+
     var secret = ""
     var datanum = 0
     var offset = 0
-    var data = raw_data.toString().replace(/%/g, ":percent:").replace(/&/g, ":ampersand:")
-    print(data)
+    //var data = raw_data.replace(/%/g, ":percent:").replace(/&/g, ":ampersand:")
+    var tdata = raw_data.trim()
     var digits = ""
     //lets turn it into integers first//
-
+    for(var t in raw_data.replace(/%/g, ":percent:").replace(/&/g, ":ampersand:")) {
+        var c = raw_data.charCodeAt(t)
+        digits += c.toString()+" "
+    }
+    var data = digits
     while (datanum < data.length) {
         var keynum = 0
         while (keynum < key.length) {
             var salt = Math.round(Math.random() * 40)
-            if (keynum < data.length && salt % 3 == 0
-                    && data[datanum] !== undefined) {
+            if (keynum < data.length && salt % 3 == 0 && data[datanum] !== undefined) {
                 if (data[datanum] === key[keynum]) {
                     var num = keynum
                     while (num < key.length) {
                         secret = secret + key[num]
                         num += 1
-                        print(data[datanum], key[num])
                         if (data[datanum] !== key[num]) {
                             keynum = num
-                            secret = secret + data[datanum]
+                            secret = secret+data[datanum]
                             print("shifting by:" + keynum)
                             break
                         } else {
@@ -906,7 +926,7 @@ function simp_crypt(key,raw_data) {
                     }
                     //secret = secret+data[datanum]
                 } else {
-                    secret = secret + data[datanum]
+                    secret = secret+data[datanum]
                 }
                 datanum += 1
             } else {
@@ -920,22 +940,28 @@ function simp_crypt(key,raw_data) {
             keynum += 1
         }
     }
-    return secret
+    return secret.replace(/ /g,"zZz")
 }
 
 function simp_decrypt(key, raw_data) {
+    key = key.replace(/0/g,"q")
+            .replace(/1/g,"a").replace(/2/g,"b")
+            .replace(/3/g,"c").replace(/4/g,"d")
+            .replace(/5/g,"F").replace(/6/g,"A")
+            .replace(/7/g,"Z").replace(/8/g,"Q")
+            .replace(/9/g,"T").replace(/#/g,"G")
+            .replace(/!/g,"B").replace(/,/g,"C")
+            .replace(/ /g,"!").replace(/\//g,"S")
+            .replace(/=/g,"e").replace(/:/g,"c")
+            .replace(/\n/g,"n")
+
     var key_stretch = key
     var message = ""
     var datanum = 0
     var offset = 0
-    var  data = decodeURI(
-                raw_data.replace(/%3A/g,":")
-                .replace(/%2C/g,",").replace(/%7B/g,"{")
-                .replace(/%22/g,'"').replace(/%7D/g, "}")
-                .replace(/%40/g, "@").replace(/%3F/g, "?")
-                .replace(/%23/g, "#").replace(/%24/g, "$")
-                .replace(/%3D/g, "=").replace(/%25/g, "%"))
+    var decoded = ""
 
+    var data = raw_data.replace(/zZz/g," ")
 
     if (key_stretch !== "") {
         if (data.length > key_stretch.length) {
@@ -952,12 +978,21 @@ function simp_decrypt(key, raw_data) {
                     break
                 }
             }
+
             datanum = datanum + 1
         }
+
+        for(var c in message.split(" ")) {
+            if(message.split(" ")[c] !== undefined) {
+                decoded += String.fromCharCode(message.split(" ")[c])
+            }
+        }
+
     } else {
-        message = data
+        decoded = "Unable to Decrypt"
     }
-    return message.replace(":percent:", "%").replace(":ampersand:", "&")
+
+    return decoded.replace(/:percent:/g, "%").replace(/:ampersand:/g, "&")
 }
 
 function openseed_search(username) {
