@@ -1,6 +1,5 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
-import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.12
 
 import "OpenSeed.js" as OpenSeed

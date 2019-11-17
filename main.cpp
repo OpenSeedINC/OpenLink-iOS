@@ -4,11 +4,8 @@
 #include <QtGui>
 #include <QtQuick>
 
-#include <QtAndroidExtras/QAndroidJniObject>
-#include <QtAndroid>
 #include <QCommandLineParser>
 
-#include "notificationclient.h"
 #include "myio.h"
 
 int main(int argc, char *argv[])
@@ -35,13 +32,6 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
-    NotificationClient *notificationClient = new NotificationClient(&engine);
-          engine.rootContext()->setContextProperty(QLatin1String("notificationClient"),notificationClient);
-
-   /*  QAndroidJniObject::callStaticMethod<void>("org/openseed/openlink/OpenSeedService",
-                                                "startOpenSeedService",
-                                                "(Landroid/content/Context;)V",
-                                                QtAndroid::androidActivity().object()); */
 
     return app.exec();
 }

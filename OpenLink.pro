@@ -1,4 +1,4 @@
-QT += quick svg sql androidextras
+QT += quick svg sql
 
 
 CONFIG += c++11
@@ -16,12 +16,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp\
-        myio.cpp \
-        notificationclient.cpp
+        myio.cpp
 
 HEADERS += \
-    myio.h \
-    notificationclient.h
+    myio.h
 
 RESOURCES += qml.qrc
 
@@ -36,44 +34,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew \
-    android/gradlew.bat \
-    android/res/values/colors.xml \
-    android/res/values/dimens.xml \
-    android/res/values/libs.xml \
-    android/res/values/strings.xml \
-    android/src/org/openseed/openlink/ContactsImport.java \
-    android/src/org/openseed/openlink/NotificationClient.java \
-    android/src/org/openseed/openlink/OpenSeedService.java \
-    android/src/org/openseed/openlink/WindowMode.java
-
-contains(ANDROID_TARGET_ARCH,arm64-v8a) {
-
-   ANDROID_PACKAGE_SOURCE_DIR = \
-        $$PWD/android
-
-    ANDROID_EXTRA_LIBS = \
-        $$PWD/../ssl/arm64/libcrypto.so \
-        $$PWD/../ssl/arm64/libssl.so
-
-}
-
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-
-    ANDROID_PACKAGE_SOURCE_DIR = \
-        $$PWD/android
-
-    ANDROID_EXTRA_LIBS = \
-        $$PWD/../ssl/arm/libcrypto.so \
-        $$PWD/../ssl/arm/libssl.so
-
-
-}
 
 
